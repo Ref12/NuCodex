@@ -1,0 +1,64 @@
+# this is the git pattern ignore file for the project.
+# Git can be used with svn http://code.google.com/p/msysgit/
+bin
+Bin
+obj
+*.user
+*.suo
+*.bak
+*.vs10x
+*.VisualState.xml
+*.userprefs
+*.pidb
+*.ide
+*.project.lock.json
+test-results
+build/artifacts
+build/bin
+_ReSharper*
+*.orig
+*.cache
+src/core/Messages/
+test/core/Messages/
+src/core/QueryParser/
+test/core/QueryParser/
+src/contrib/
+test/contrib/
+src/core/obj/
+src/core/bin/
+test/core/obj/
+test/core/bin/
+bin/
+obj/
+doc/
+src/demo/
+packages/
+.vs/
+*.lock.json
+TestResults/
+test-files/analysis/data/
+[Nn]u[Gg]et[Pp]ackages/
+out.dot
+release/
+
+# NuGet v3's project.json files produces more ignoreable files
+*.nuget.props
+*.nuget.targets
+
+# For the build tools that are downloading when building Lucene.NET
+.tools/
+
+# NUnit test result file produced by nunit3-console.exe
+[Tt]est[Rr]esult.xml
+websites/**/_site/*
+websites/**/tools/*
+websites/**/_exported_templates/*
+websites/**/api/.manifest
+websites/**/docfx.log
+websites/**/lucenetemplate/plugins/*
+websites/apidocs/api/**/*.yml
+websites/apidocs/api/**/*.manifest
+!websites/apidocs/api/toc.yml
+
+# Apache Releases on Subversion
+svn-*/
