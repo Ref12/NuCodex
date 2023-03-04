@@ -6,6 +6,7 @@
     <WasmEnableThreads>true</WasmEnableThreads>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <_WasmPThreadPoolSize>10</_WasmPThreadPoolSize>
   </PropertyGroup>
 
   <ItemGroup>

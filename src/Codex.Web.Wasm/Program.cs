@@ -7,14 +7,14 @@ public static class Program
 {
     public static void Main()
     {
-        Console.WriteLine("Hello4, Browser!");
+        Console.WriteLine($"Hello4, Browser! from: {Thread.CurrentThread.ManagedThreadId}");
 
         for (int i = 0; i < 10; i++)
         {
             Task.Run(async () =>
             {
                 Thread.Sleep(1000);
-                Console.WriteLine($"Running thread with id: {Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine($"Running thread with id: {Thread.CurrentThread.ManagedThreadId} on '{MyClass.GetHRef()}'");
                 await Task.Delay(1000);
             });
         }
