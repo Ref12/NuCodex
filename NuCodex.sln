@@ -27,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{23EF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codex.Framework.Generator", "src\Codex.Framework.Generator\Codex.Framework.Generator.csproj", "{EC6E7DA1-3DDC-7E74-D13A-F507D91D3AB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codex.Framework.Generator.Tests", "src\Codex.Framework.Generator.Tests\Codex.Framework.Generator.Tests.csproj", "{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,10 +72,6 @@ Global
 		{07B3F7FA-279F-46D8-A0B3-CF2BB7B73918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07B3F7FA-279F-46D8-A0B3-CF2BB7B73918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07B3F7FA-279F-46D8-A0B3-CF2BB7B73918}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{07B3F7FA-279F-46D8-A0B3-CF2BB7B73918} = {3D502CE0-BBE2-4B9B-9E09-EA0713129911}
@@ -89,6 +83,5 @@ Global
 		{EFD149B3-0541-26B6-9284-4C13B9190A83} = {3D502CE0-BBE2-4B9B-9E09-EA0713129911}
 		{3A4B2B29-5620-10EF-49C0-B8C88592A8DB} = {3D502CE0-BBE2-4B9B-9E09-EA0713129911}
 		{EC6E7DA1-3DDC-7E74-D13A-F507D91D3AB3} = {23EFC72E-8F66-4051-B234-623CCC0FDAF0}
-		{90FF5B0E-8AB8-5A6C-65F0-B7EB4D9943DD} = {23EFC72E-8F66-4051-B234-623CCC0FDAF0}
 	EndGlobalSection
 EndGlobal

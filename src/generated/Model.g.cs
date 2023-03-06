@@ -1,101 +1,59 @@
-namespace Codex.ObjectModel
+namespace Codex.ObjectModel.Implementation
 {
-    class Repository
+    public class Repository : IRepository
     {
-        string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
-        string SourceControlWebAddress
-        {
-            get;
-            set;
-        }
+        public string SourceControlWebAddress { get; set; }
 
-        string FileWebAddressTransformInputRegex
-        {
-            get;
-            set;
-        }
+        public string FileWebAddressTransformInputRegex { get; set; }
 
-        string PrimaryBranch
-        {
-            get;
-            set;
-        }
+        public string PrimaryBranch { get; set; }
 
-        global::System.Collections.Generic.IReadOnlyList<global::Codex.ObjectModel.IRepositoryReference> RepositoryReferences
+        public List<RepositoryReference> RepositoryReferences { get; set; }
+
+        IReadOnlyList<IRepositoryReference> IRepository.RepositoryReferences
         {
-            get;
-            set;
+            get
+            {
+                return RepositoryReferences;
+            }
         }
     }
 
-    class RepositoryReference
+    public class RepositoryReference : IRepositoryReference
     {
-        string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        string Id
-        {
-            get;
-            set;
-        }
+        public string Id { get; set; }
     }
 
-    class RepoScopeEntity
+    public class RepoScopeEntity : IRepoScopeEntity
     {
-        string RepositoryName
-        {
-            get;
-            set;
-        }
+        public string RepositoryName { get; set; }
     }
 
-    class CommitScopeEntity
+    public class CommitScopeEntity : RepoScopeEntity, ICommitScopeEntity
     {
-        string CommitId
-        {
-            get;
-            set;
-        }
+        public string CommitId { get; set; }
     }
 
-    class ProjectScopeEntity
+    public class ProjectScopeEntity : RepoScopeEntity, IProjectScopeEntity
     {
-        string ProjectId
-        {
-            get;
-            set;
-        }
+        public string ProjectId { get; set; }
     }
 
-    class RepoFileScopeEntity
+    public class RepoFileScopeEntity : RepoScopeEntity, IRepoFileScopeEntity
     {
-        string RepoRelativePath
-        {
-            get;
-            set;
-        }
+        public string RepoRelativePath { get; set; }
     }
 
-    class ProjectFileScopeEntity
+    public class ProjectFileScopeEntity : RepoFileScopeEntity, IProjectFileScopeEntity, IRepoScopeEntity, IProjectScopeEntity
     {
-        string ProjectRelativePath
-        {
-            get;
-            set;
-        }
+        public string ProjectRelativePath { get; set; }
+
+        public string ProjectId { get; set; }
     }
 }
