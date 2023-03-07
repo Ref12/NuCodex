@@ -11,6 +11,17 @@ namespace Codex.Framework.Generator
             return c;
         }
 
+        public static T ApplyIf<T>(this T c, bool shouldApply, Action<T> apply)
+            where T : CodeObject
+        {
+            if (shouldApply)
+            {
+                apply(c);
+            }
+
+            return c;
+        }
+
         public static PropertyDeclaration AddAutoGet(this PropertyDeclaration p)
         {
             return p.Apply(p => p.Getter = GetAutoAccessor());

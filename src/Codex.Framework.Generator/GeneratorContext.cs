@@ -39,7 +39,7 @@ public record GeneratorContext(string OutputPath)
 
         AddProperties();
 
-        CSharpCodeGenerator generator = new CSharpCodeGenerator();
+        CSharpCodeGenerator generator = new CodeGenerator();
         //using var modelFileWriter = new StreamWriter(Path.Combine(OutputPath, "Model.g.cs"));
         using var modelWriter = new StringWriter();
         generator.Write(modelWriter, file);
@@ -130,7 +130,8 @@ public record GeneratorContext(string OutputPath)
             }
         }
 
-        type.ModelDeclaration.Members.Add(new PropertyDeclaration(property.Name, propertyTypeReference)
+        type.ModelDeclaration.Members.Add(new InitializedPropertyDeclaration(property.Name, propertyTypeReference)
+            .ApplyIf(isList, p => p.InitExpression = new NewObjectExpression())
             .AddAutoGet()
             .AddAutoSet()
             .Apply(p => p.Modifiers = Modifiers.Public));
@@ -176,6 +177,31 @@ public record GeneratorContext(string OutputPath)
     private TypeDefinition ToTypeDefinition(Type type)
     {
         return new TypeDefinition(type, this);
+    }
+
+    private class CodeGenerator : CSharpCodeGenerator
+    {
+        protected override void WritePropertyDeclaration(IndentedTextWriter writer, PropertyDeclaration member)
+        {
+            base.WritePropertyDeclaration(writer, member);
+
+            if (member is InitializedPropertyDeclaration init && init.InitExpression != null)
+            {
+                writer.Write(" = ");
+                WriteExpression(writer, init.InitExpression);
+                writer.WriteLine(";");
+            }
+        }
+    }
+
+    public class InitializedPropertyDeclaration : PropertyDeclaration
+    {
+        public InitializedPropertyDeclaration(string name, CodeTypeReference type) 
+            : base(name, type)
+        {
+        }
+
+        public Expression InitExpression { get; set; }
     }
 
     private class PostProcessRewriter : CSharpSyntaxRewriter

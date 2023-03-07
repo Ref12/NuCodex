@@ -12,8 +12,7 @@ namespace Codex.ObjectModel.Implementation
 
         public string PrimaryBranch { get; set; }
 
-        public List<RepositoryReference> RepositoryReferences { get; set; }
-
+        public List<RepositoryReference> RepositoryReferences { get; set; } = new();
         IReadOnlyList<IRepositoryReference> IRepository.RepositoryReferences
         {
             get
