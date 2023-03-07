@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-
-namespace Codex.Utilities
+﻿namespace Codex.Utilities
 {
     /// <summary>
     /// Utility methods for paths and Uris (including relativizing and derelativizing)

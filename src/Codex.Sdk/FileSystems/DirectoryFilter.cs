@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Codex.Utilities;
-
-namespace Codex.Utilities.FileSystems
+﻿namespace Codex.Utilities.FileSystems
 {
     public class DirectoryFileSystemFilter : FileSystemFilter
     {
