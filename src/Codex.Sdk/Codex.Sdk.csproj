@@ -13,4 +13,8 @@
     <Compile Include="..\generated\Model.g.cs"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Memory" />
+  </ItemGroup>
+
 </Project>
