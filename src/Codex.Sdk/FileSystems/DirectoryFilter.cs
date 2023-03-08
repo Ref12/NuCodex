@@ -1,4 +1,4 @@
-﻿namespace Codex.Utilities.FileSystems
+﻿namespace Codex.Utilities
 {
     public class DirectoryFileSystemFilter : FileSystemFilter
     {

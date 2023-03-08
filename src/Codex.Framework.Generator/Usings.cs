@@ -1,3 +1,6 @@
+global using Codex.ObjectModel;
+global using Codex.ObjectModel.Attributes;
+
 global using CodeMemberField = Meziantou.Framework.CodeDom.FieldDeclaration;
 global using CodeMemberProperty = Meziantou.Framework.CodeDom.PropertyDeclaration;
 global using CodeStatementCollection = Meziantou.Framework.CodeDom.StatementCollection;

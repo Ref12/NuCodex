@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Codex.Utilities.FileSystems
+namespace Codex.Utilities
 {
     public class RootFileSystem : SystemFileSystem
     {

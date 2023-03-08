@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Codex.Utilities;
 
-namespace Codex.Utilities.FileSystems
+namespace Codex.Utilities
 {
     public class RootFileSystemFilter : FileSystemFilter
     {

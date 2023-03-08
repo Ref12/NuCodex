@@ -164,7 +164,10 @@ public record GeneratorContext(string OutputPath)
             if (baseType != null)
             {
                 typeDefinition.BaseDefinition = Types.GetValueOrDefault(baseType);
-                typeDefinition.ModelDeclaration.BaseType = new TypeReference(typeDefinition.BaseDefinition.BaseName);
+                if (typeDefinition.BaseDefinition != null)
+                {
+                    typeDefinition.ModelDeclaration.BaseType = new TypeReference(typeDefinition.BaseDefinition.BaseName);
+                }
             }
 
             foreach (var baseInterface in new[] { typeDefinition.Type }.Concat(typeDefinition.Type.GetInterfaces().Skip(1)))
