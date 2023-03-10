@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Reflection;
 using Codex.ObjectModel;
+using Codex.Utilities;
 using Meziantou.Framework.CodeDom;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,7 +18,13 @@ public record GeneratorContext(string OutputPath)
 {
     public IReadOnlyDictionary<Type, TypeDefinition> Types;
 
-    public NamespaceDeclaration ModelNamespace = new("Codex.ObjectModel.Implementation");
+    public NamespaceDeclaration ModelNamespace = new("Codex.ObjectModel.Implementation")
+    {
+        Usings =
+        {
+            new Dom.UsingDirective($"static {nameof(PropertyTarget)}")
+        }
+    };
 
     public Workspace Workspace = new AdhocWorkspace();
 
@@ -78,36 +85,100 @@ public record GeneratorContext(string OutputPath)
             AddProperties(type.BaseDefinition);
         }
 
+        var decl = type.ModelDeclaration;
+        type.Interfaces = new[] { type.Type }.Concat(type.Type.GetInterfaces()).ToImmutableHashSet().Union(type.BaseDefinition?.Interfaces ?? ImmutableHashSet<Type>.Empty);
         type.Properties = type.BaseDefinition?.Properties ?? ImmutableDictionary<string, PropertyInfo>.Empty;
-        var properties = type.Properties.ToBuilder();
-        foreach (var property in new[] { type.Type }.Concat(type.Type.GetInterfaces()).SelectMany(t => t.GetProperties()))
-        {
-            if (properties.TryGetValue(property.Name, out _))
-            {
-                continue;
-            }
 
-            properties[property.Name] = property;
-            AddProperty(type, property);
+        decl.Members.Add(new ConstructorDeclaration()
+        {
+            Modifiers = Modifiers.Public
+        });
+
+        decl.Members.Add(new MethodDeclaration(nameof(IPropertyTarget.CreateClone))
+        {
+            PrivateImplementationType = typeof(IPropertyTarget),
+            ReturnType = typeof(object),
+            Statements = new()
+            {
+                new ReturnStatement(new NewObjectExpression(decl, new CastExpression(new ThisExpression(), type.Type)))
+            }
+        });
+
+        foreach (var baseType in type.Interfaces)
+        {
+            if (Types.ContainsKey(baseType))
+            {
+                MethodArgumentDeclaration argument = new MethodArgumentDeclaration(baseType, "source");
+
+                var copyMethod = new MethodDeclaration("CopyFrom")
+                {
+                    Modifiers = Modifiers.Public,
+                    Statements = new StatementCollection()
+                };
+
+                decl.Members.Add(new ConstructorDeclaration()
+                {
+                    Modifiers = Modifiers.Public,
+                    Arguments = { argument },
+                    Statements = new()
+                    {
+                        new MethodInvokeExpression(copyMethod, argument)
+                    }
+                });
+
+                copyMethod.AddArgument(argument);
+
+                if (type.BaseDefinition?.Interfaces.Contains(baseType) != true)
+                {
+                    decl.Implements.Add(new TypeReference(typeof(IPropertyTarget<>).MakeGenericType(baseType)));
+                    type.ModelDeclaration.Members.Add(copyMethod);
+                }
+
+                foreach (var property in baseType.GetProperties())
+                {
+                    AddProperty(type, property, out var propertyType, out bool isList, out bool isModelType, out var copyTypeRef);
+
+                    copyMethod.Statements.Add(
+                        new AssignStatement(
+                            new MemberReferenceExpression(null, property.Name),
+                            new MethodInvokeExpression(
+                                new MemberReferenceExpression(null, nameof(PropertyTarget.GetOrCopy)),
+                                new MemberReferenceExpression(null, property.Name),
+                                new MemberReferenceExpression(copyMethod.Arguments[0], property.Name))
+                            {
+                                Parameters =
+                                {
+                                   copyTypeRef,
+                                   propertyType
+                                }
+                            }));
+                }
+            }
         }
 
-        type.Properties = properties.ToImmutable();
+        decl.Members.Sort(new ComparerBuilder<MemberDeclaration>()
+            .CompareByAfter(m => m is ConstructorDeclaration ? 0 : (m is MethodDeclaration ? 1 : 2)));
     }
 
-    private void AddProperty(TypeDefinition type, PropertyInfo property)
+    private void AddProperty(
+        TypeDefinition type,
+        PropertyInfo property,
+        out Type propertyType,
+        out bool isList,
+        out bool isModelType,
+        out TypeReference copyTypeRef)
     {
-        var propertyType = property.PropertyType;
-        bool isList = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
+        propertyType = property.PropertyType;
+        isList = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
         if (isList)
         {
             propertyType = propertyType.GenericTypeArguments[0];
         }
 
-        bool isModelType = Types.TryGetValue(propertyType, out var modelType);
+        isModelType = Types.TryGetValue(propertyType, out var modelType);
+        var propertyTypeReference = getPropertyTypeReference(propertyType, isList, isModelType);
 
-        var propertyTypeReference = getPropertyTypeReference();
-
-        TypeReference getPropertyTypeReference()
+        TypeReference getPropertyTypeReference(Type propertyType, bool isList, bool isModelType)
         {
             if (isList)
             {
@@ -129,6 +200,15 @@ public record GeneratorContext(string OutputPath)
                 return new TypeReference(propertyType);
             }
         }
+
+        copyTypeRef = isList ? propertyTypeReference.Parameters[0] : propertyTypeReference;
+
+        if (type.Properties.TryGetValue(property.Name, out _))
+        {
+            return;
+        }
+
+        type.Properties = type.Properties.SetItem(property.Name, property);
 
         type.ModelDeclaration.Members.Add(new InitializedPropertyDeclaration(property.Name, propertyTypeReference)
             .ApplyIf(isList, p => p.InitExpression = new NewObjectExpression())

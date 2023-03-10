@@ -14,7 +14,7 @@ namespace Codex.Framework.Generator
             BaseName = type.Name.TrimStart('I');
             ModelDeclaration = new ClassDeclaration(BaseName)
             { 
-                Modifiers = Modifiers.Public
+                Modifiers = Modifiers.Public | Modifiers.Partial
             };
 
             context.ModelNamespace.Types.Add(ModelDeclaration);
@@ -25,6 +25,7 @@ namespace Codex.Framework.Generator
         public string BaseName { get; }
 
         public ImmutableDictionary<string, PropertyInfo> Properties { get; set; }
+        public ImmutableHashSet<Type> Interfaces { get; set; }
         public ClassDeclaration ModelDeclaration { get; }
 
         public TypeDefinition BaseDefinition { get; set; }
