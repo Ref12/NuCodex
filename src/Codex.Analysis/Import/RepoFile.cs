@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Codex.Analysis;
 using Codex.Analysis.Files;
-using Codex.Analysis.FileSystems;
-using Codex.ObjectModel;
-using Codex.Utilities;
 
 namespace Codex.Import
 {

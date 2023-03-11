@@ -25,19 +25,16 @@ namespace Codex.ObjectModel
         IReadOnlyList<IReferencedProject> ProjectReferences { get; }
     }
 
-    namespace ObjectModel
+    /// <summary>
+    /// Defines standard set of project kinds
+    /// </summary>
+    public enum ProjectKind
     {
-        /// <summary>
-        /// Defines standard set of project kinds
-        /// </summary>
-        public enum ProjectKind
-        {
-            Source,
+        Source,
 
-            MetadataAsSource,
+        MetadataAsSource,
 
-            Decompilation
-        }
+        Decompilation
     }
 
     public interface IReferencedProject
