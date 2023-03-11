@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Codex.Analysis.Managed;
 using Codex.Analysis.Managed.Symbols;
 using Codex.ObjectModel;
 using Codex.Utilities;
@@ -16,7 +15,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using CS = Microsoft.CodeAnalysis.CSharp;
 
-namespace Codex.Analysis
+namespace Codex.Analysis.Managed
 {
     class DocumentAnalyzer
     {
@@ -1006,7 +1005,9 @@ namespace Codex.Analysis
                 case ClassificationTypeNames.PropertyName:
                 case ClassificationTypeNames.EventName:
                     return ClassificationTypeNames.Identifier;
-                case ClassificationTypeNames.RecordName:
+                case ClassificationTypeNames.RecordClassName:
+                case ClassificationTypeNames.RecordStructName:
+                case ClassificationTypeNames.StructName:
                     return ClassificationTypeNames.ClassName;
                 default:
                     return span.ClassificationType;
@@ -1021,7 +1022,6 @@ namespace Codex.Analysis
                 case ClassificationTypeNames.Identifier:
                 case ClassificationTypeNames.Operator:
                 case ClassificationTypeNames.ClassName:
-                case ClassificationTypeNames.RecordName:
                 case ClassificationTypeNames.InterfaceName:
                 case ClassificationTypeNames.StructName:
                 case ClassificationTypeNames.EnumName:

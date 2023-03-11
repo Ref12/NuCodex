@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Codex
+{
+    /// <summary>
+    /// Class for marking places to fill in while implementing
+    /// </summary>
+    public static class Placeholder
+    {
+        public const bool IsCommitModelEnabled = true;
+
+        public static T Value<T>(string message = null)
+        {
+            return default(T);
+        }
+
+        public static bool MissingFeature(string message = null)
+        {
+            return false;
+        }
+
+        public static Task NotImplementedAsync(string message = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Exception NotImplementedException(string message = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Conditional("NOTIMPLEMENTED")]
+        public static void NotImplemented(string message = null)
+        {
+            throw new NotImplementedException();
+        }
+        
+        [Conditional("TODO")]
+        public static void Todo(string message = null)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

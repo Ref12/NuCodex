@@ -1,0 +1,17 @@
+<Project>
+
+  <PropertyGroup>
+    <RoslynPackageVersion>4.5.0</RoslynPackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.Common" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.Workspaces.Common" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.Features" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.VisualBasic" />
+    <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.VisualBasic.Workspaces" />
+  </ItemGroup>
+
+</Project>

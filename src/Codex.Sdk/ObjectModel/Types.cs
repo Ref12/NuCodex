@@ -88,6 +88,11 @@ namespace Codex.ObjectModel.Implementation
             return value;
         }
 
+        public void IncrementReferenceCount()
+        {
+            Placeholder.Todo("Increment reference count");
+        }
+
         private int GetAbbreviationLength()
         {
             return AccumulateAbbreviationCharacters(0, (i, c) => i + 1);
