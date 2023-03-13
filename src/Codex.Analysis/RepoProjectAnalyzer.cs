@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Codex.Analysis;
-using Codex.Analysis.Files;
-using Codex.Analysis.FileSystems;
 using Codex.Import;
-using Codex.ObjectModel;
-using Codex.Utilities;
-using static Codex.Utilities.TaskUtilities;
 
 namespace Codex.Analysis
 {

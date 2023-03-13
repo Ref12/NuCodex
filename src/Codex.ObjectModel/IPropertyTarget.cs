@@ -43,6 +43,27 @@ namespace Codex.ObjectModel
             }
         }
 
+        public static IReadOnlyList<T> GetOrCopy<T, TSource>(IReadOnlyList<T> target, IReadOnlyCollection<TSource> source)
+        {
+            var list = new List<T>();
+            if (source != null)
+            {
+                list.Capacity = source.Count;
+                foreach (var item in source)
+                {
+                    if (item is IPropertyTarget itemTarget)
+                    {
+                        list.Add((T)itemTarget.CreateClone());
+                    }
+                    else
+                    {
+                        list.Add(Cast<T, TSource>(item));
+                    }
+                }
+            }
+            return target;
+        }
+
         public static List<T> GetOrCopy<T, TSource>(List<T> target, IReadOnlyCollection<TSource> source)
         {
             target.Clear();

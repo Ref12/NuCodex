@@ -169,6 +169,7 @@ public record GeneratorContext(string OutputPath)
         out TypeReference copyTypeRef)
     {
         var coerceGet = property.GetCustomAttribute<CoerceGetAttribute>();
+        var isReadOnlyList = property.GetCustomAttribute<ReadOnlyListAttribute>() != null;
 
         propertyType = property.PropertyType;
         isList = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
@@ -184,13 +185,14 @@ public record GeneratorContext(string OutputPath)
         {
             if (isList)
             {
+                string listType = isReadOnlyList ? "IReadOnlyList" : "List";
                 if (isModelType)
                 {
-                    return new TypeReference("List").MakeGeneric(new TypeReference(modelType.BaseName));
+                    return new TypeReference(listType).MakeGeneric(new TypeReference(modelType.BaseName));
                 }
                 else
                 {
-                    return new TypeReference("List").MakeGeneric(new TypeReference(propertyType));
+                    return new TypeReference(listType).MakeGeneric(new TypeReference(propertyType));
                 }
             }
             else if (isModelType)
@@ -218,7 +220,11 @@ public record GeneratorContext(string OutputPath)
 
         if (coerceGet == null)
         {
-            propertyDeclaration.ApplyIf(isList, p => p.InitExpression = new NewObjectExpression())
+            propertyDeclaration
+                .ApplyIf(isList && isReadOnlyList, p => p.InitExpression = 
+                    isReadOnlyList 
+                    ? new MemberReferenceExpression(typeof(Array), "Empty").InvokeMethod(new[] { propertyTypeReference.Parameters[0] })
+                    : new NewObjectExpression())
             .AddAutoGet()
             .AddAutoSet();
         }

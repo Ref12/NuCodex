@@ -203,8 +203,7 @@ namespace Codex.ObjectModel
         /// </summary>
         IReferenceSymbol Reference { get; }
 
-        // TODO: Need some sort of override for searching RelatedDefinition of the
-        // ReferenceSpan
+        [Placeholder.Todo("Need some sort of override for searching RelatedDefinition of the ReferenceSpan")]
         [SearchBehavior(SearchBehavior.None)]
         [ReadOnlyList]
         [CoerceGet]
@@ -214,7 +213,7 @@ namespace Codex.ObjectModel
         /// Compressed list of spans
         /// </summary>
         [SearchBehavior(SearchBehavior.None)]
-        ISymbolLineSpanList CompressedSpans { get; }
+        ISymbolLineSpanListModel CompressedSpans { get; }
     }
 
     public interface ISourceSearchModelBase : ISearchEntity
@@ -243,13 +242,13 @@ namespace Codex.ObjectModel
         /// Compressed list of classification spans
         /// </summary>
         [SearchBehavior(SearchBehavior.None)]
-        IClassificationList CompressedClassifications { get; }
+        IClassificationListModel CompressedClassifications { get; }
 
         /// <summary>
         /// Compressed list of reference spans
         /// </summary>
         [SearchBehavior(SearchBehavior.None)]
-        IReferenceList CompressedReferences { get; }
+        IReferenceListModel CompressedReferences { get; }
     }
 
     public interface ITextSourceSearchModel : ISourceSearchModelBase

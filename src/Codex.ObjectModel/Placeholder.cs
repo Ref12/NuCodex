@@ -45,5 +45,14 @@ namespace Codex
         {
             throw new NotImplementedException();
         }
+
+        [System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+        public sealed class TodoAttribute : Attribute
+        {
+            // This is a positional argument
+            public TodoAttribute(string message)
+            {
+            }
+        }
     }
 }

@@ -1,18 +1,9 @@
-using Codex.ObjectModel;
-using Codex.Storage.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Codex.Storage.Utilities.NumberUtils;
-using System.Collections;
-using Codex.Utilities;
-using System.Runtime.Serialization;
-using System.IO;
-using System.IO.Compression;
-using Newtonsoft.Json;
 using System.Diagnostics.Contracts;
+using System.IO.Compression;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using Codex.Utilities;
+using Range = Codex.Utilities.Range;
 
 namespace Codex.ObjectModel.Implementation
 {
@@ -210,7 +201,7 @@ namespace Codex.ObjectModel.Implementation
         public ListSegment<TSpan> GetSpans(int startPosition, int length)
         {
             var segmentList = new SegmentRangeList(Segments);
-            var segmentListRange = segmentList.GetReadOnlyList().GetRange(new Range(startPosition, length),
+            var segmentListRange = segmentList.GetRange(new Range(startPosition, length),
                 (searchRange, segmentRange) => RangeHelper.MinCompare(searchRange, segmentRange, inclusive: true),
                 (searchRange, segmentRange) => RangeHelper.MaxCompare(searchRange, segmentRange, inclusive: true));
 
@@ -225,7 +216,7 @@ namespace Codex.ObjectModel.Implementation
                 absoluteLength -= (SegmentOffsetBitMask - (SegmentOffsetBitMask & (Count - 1)));
             }
 
-            var spanRangeList = IndexableListAdapter.GetReadOnlyList(new SpanRangeList(this));
+            var spanRangeList = new SpanRangeList(this);
 
             var rangeListSegment = new ListSegment<Range>(spanRangeList, absoluteStart, absoluteLength);
 
@@ -233,12 +224,12 @@ namespace Codex.ObjectModel.Implementation
                 (r, start) => RangeHelper.MinCompare(r, start, inclusive: true),
                 (r, start) => RangeHelper.MaxCompare(r, start, inclusive: true));
 
-            return new ListSegment<TSpan>(this.GetReadOnlyList(), rangeListSegment.Start + spanRange.Start, spanRange.Count);
+            return new ListSegment<TSpan>(this, rangeListSegment.Start + spanRange.Start, spanRange.Count);
         }
 
         public IReadOnlyList<TSpan> ToList()
         {
-            return this.GetReadOnlyList();
+            return this;
         }
 
         private Range GetRange(int index)
@@ -319,7 +310,7 @@ namespace Codex.ObjectModel.Implementation
         [JsonIgnore]
         public bool ExpandedLengths { get; set; }
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool StartsExpanded { get; set; }
 
         public IntegerListModel Starts { get; set; }

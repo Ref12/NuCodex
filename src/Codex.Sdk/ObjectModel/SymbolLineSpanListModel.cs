@@ -6,7 +6,7 @@ using static Codex.Utilities.SerializationUtilities;
 
 namespace Codex.ObjectModel.Implementation
 {
-    public class SymbolLineSpanListModel : SpanListModel<SymbolSpan, SpanListSegmentModel, SymbolSpan, int>, ISymbolLineSpanList
+    public class SymbolLineSpanListModel : SpanListModel<SymbolSpan, SpanListSegmentModel, SymbolSpan, int>, ISymbolLineSpanListModel
     {
         public static readonly IComparer<SymbolSpan> SharedSymbolLineModelComparer = new ComparerBuilder<SymbolSpan>()
             .CompareByAfter(s => s.LineSpanText);

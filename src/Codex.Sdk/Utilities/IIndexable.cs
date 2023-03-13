@@ -9,16 +9,17 @@ namespace Codex.Utilities
 {
     public interface IIndexable<T> : IReadOnlyList<T>
     {
-        T this[int index] { get; }
-
-        int Count { get; }
-
-        public IEnumerator<T> GetEnumerator()
+        public new IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
                 yield return this[i];
             }
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

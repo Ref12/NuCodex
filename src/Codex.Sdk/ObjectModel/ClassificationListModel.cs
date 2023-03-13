@@ -2,7 +2,7 @@
 
 namespace Codex.ObjectModel.Implementation
 {
-    public class ClassificationListModel : SpanListModel<ClassificationSpan, ClassificationSpanListSegmentModel, ClassificationStyle, string>, IClassificationList
+    public class ClassificationListModel : SpanListModel<ClassificationSpan, ClassificationSpanListSegmentModel, ClassificationStyle, string>, IClassificationListModel
     {
         public ClassificationListModel()
         {

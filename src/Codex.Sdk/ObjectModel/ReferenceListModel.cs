@@ -8,7 +8,7 @@ using static Codex.Utilities.SerializationUtilities;
 
 namespace Codex.ObjectModel.Implementation
 {
-    public class ReferenceListModel : SpanListModel<ReferenceSpan, ReferenceSpanListSegmentModel, ReferenceSymbol, ReferenceSymbol>, IReferenceList
+    public class ReferenceListModel : SpanListModel<ReferenceSpan, ReferenceSpanListSegmentModel, ReferenceSymbol, ReferenceSymbol>, IReferenceListModel
     {
         public static readonly IEqualityComparer<ReferenceSymbol> ReferenceSymbolEqualityComparer = new EqualityComparerBuilder<ReferenceSymbol>()
             .CompareByAfter(s => s.ProjectId)
