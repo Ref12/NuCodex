@@ -17,7 +17,12 @@ namespace Codex.Framework.Generator
                 Modifiers = Modifiers.Public | Modifiers.Partial
             };
 
-            context.ModelNamespace.Types.Add(ModelDeclaration);
+            IsAdapter = type.GetCustomAttribute<AdapterTypeAttribute>() != null;
+
+            if (!IsAdapter)
+            {
+                context.ModelNamespace.Types.Add(ModelDeclaration);
+            }
         }
 
         public Type Type { get; }
@@ -27,7 +32,7 @@ namespace Codex.Framework.Generator
         public ImmutableDictionary<string, PropertyInfo> Properties { get; set; }
         public ImmutableHashSet<Type> Interfaces { get; set; }
         public ClassDeclaration ModelDeclaration { get; }
-
+        public bool IsAdapter { get; }
         public TypeDefinition BaseDefinition { get; set; }
     }
 }

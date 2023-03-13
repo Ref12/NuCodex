@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Codex.Analysis\Codex.Analysis.csproj" />
     <ProjectReference Include="..\Codex.ObjectModel\Codex.ObjectModel.csproj" />

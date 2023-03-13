@@ -168,6 +168,8 @@ public record GeneratorContext(string OutputPath)
         out bool isModelType,
         out TypeReference copyTypeRef)
     {
+        var coerceGet = property.GetCustomAttribute<CoerceGetAttribute>();
+
         propertyType = property.PropertyType;
         isList = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IReadOnlyList<>);
         if (isList)
@@ -210,11 +212,33 @@ public record GeneratorContext(string OutputPath)
 
         type.Properties = type.Properties.SetItem(property.Name, property);
 
-        type.ModelDeclaration.Members.Add(new InitializedPropertyDeclaration(property.Name, propertyTypeReference)
-            .ApplyIf(isList, p => p.InitExpression = new NewObjectExpression())
+        var propertyDeclaration = new InitializedPropertyDeclaration(property.Name, propertyTypeReference)
+            .Apply(p => p.Modifiers = Modifiers.Public);
+        type.ModelDeclaration.Members.Add(propertyDeclaration);
+
+        if (coerceGet == null)
+        {
+            propertyDeclaration.ApplyIf(isList, p => p.InitExpression = new NewObjectExpression())
             .AddAutoGet()
-            .AddAutoSet()
-            .Apply(p => p.Modifiers = Modifiers.Public));
+            .AddAutoSet();
+        }
+        else
+        {
+            var field = new FieldDeclaration("m_" + property.Name, coerceGet.CoercedSourceType ?? propertyTypeReference)
+                .Apply(f => f.Modifiers = Modifiers.Private);
+            type.ModelDeclaration.Members.Add(field);
+
+            // get => Coerce{PropertyName}(m_{PropertyName});
+            propertyDeclaration.Getter = new ReturnStatement(
+                new MethodInvokeExpression(
+                    new MemberReferenceExpression(null, "Coerce" + property.Name),
+                    field));
+
+            // set => m_{PropertyName} = value;
+            propertyDeclaration.Setter = new AssignStatement(
+                field,
+                new ValueArgumentExpression());
+        }
 
         if (isList || isModelType)
         {
@@ -248,6 +272,10 @@ public record GeneratorContext(string OutputPath)
                 {
                     typeDefinition.ModelDeclaration.BaseType = new TypeReference(typeDefinition.BaseDefinition.BaseName);
                 }
+            }
+            else
+            {
+                typeDefinition.ModelDeclaration.BaseType = typeof(EntityBase);
             }
 
             foreach (var baseInterface in new[] { typeDefinition.Type }.Concat(typeDefinition.Type.GetInterfaces().Skip(1)))

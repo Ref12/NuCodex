@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Codex.ObjectModel;
 using Codex.ObjectModel.Attributes;
 
+using static Codex.Utilities.SerializationUtilities;
+
 namespace Codex.ObjectModel.Implementation
 {
     /// <summary>
@@ -99,7 +101,7 @@ namespace Codex.ObjectModel.Implementation
         }
 
         /// <summary>
-        /// Essentially extracts all upper-case characters no preceded by another uppercase character
+        /// Essentially extracts all upper-case characters not preceded by another uppercase character
         /// </summary>
         internal T AccumulateAbbreviationCharacters<T>(T initial, Func<T, char, T> accumulator)
         {
@@ -292,15 +294,8 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class PropertyMapBase : Dictionary<string, string>
+    public partial class PropertyMap : Dictionary<string, string>, IPropertyMap
     {
-    }
-
-    partial class PropertyMap : PropertyMapBase
-    {
-        protected void Initialize()
-        {
-        }
     }
 
     //partial class TextSourceSearchModel

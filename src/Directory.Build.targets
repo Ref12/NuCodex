@@ -14,4 +14,8 @@
     <PackageReference Version="$(RoslynPackageVersion)" Update="Microsoft.CodeAnalysis.VisualBasic.Workspaces" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="System.Text.Json" Version="7.0.2"/>
+  </ItemGroup>
+
 </Project>

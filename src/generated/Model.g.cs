@@ -2,7 +2,7 @@ namespace Codex.ObjectModel.Implementation
 {
     using static PropertyTarget;
 
-    public partial class DocumentationInfo : IDocumentationInfo, IPropertyTarget<IDocumentationInfo>
+    public partial class DocumentationInfo : EntityBase, IDocumentationInfo, IPropertyTarget<IDocumentationInfo>
     {
         public DocumentationInfo()
         {
@@ -86,7 +86,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class ParameterDocumentation : IParameterDocumentation, IPropertyTarget<IParameterDocumentation>
+    public partial class ParameterDocumentation : EntityBase, IParameterDocumentation, IPropertyTarget<IParameterDocumentation>
     {
         public ParameterDocumentation()
         {
@@ -156,12 +156,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public DocumentationReferenceSymbol(IDocumentationReferenceSymbol source)
+        public DocumentationReferenceSymbol(IReferenceSymbol source)
         {
             this.CopyFrom(source);
         }
 
-        public DocumentationReferenceSymbol(IReferenceSymbol source)
+        public DocumentationReferenceSymbol(IDocumentationReferenceSymbol source)
         {
             this.CopyFrom(source);
         }
@@ -187,7 +187,7 @@ namespace Codex.ObjectModel.Implementation
         public string Comment { get; set; }
     }
 
-    public partial class LanguageInfo : ILanguageInfo, IPropertyTarget<ILanguageInfo>
+    public partial class LanguageInfo : EntityBase, ILanguageInfo, IPropertyTarget<ILanguageInfo>
     {
         public LanguageInfo()
         {
@@ -221,7 +221,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class ClassificationStyle : IClassificationStyle, IPropertyTarget<IClassificationStyle>
+    public partial class ClassificationStyle : EntityBase, IClassificationStyle, IPropertyTarget<IClassificationStyle>
     {
         public ClassificationStyle()
         {
@@ -251,7 +251,70 @@ namespace Codex.ObjectModel.Implementation
         public string Name { get; set; }
     }
 
-    public partial class SearchEntityBase : ISearchEntityBase, IPropertyTarget<ISearchEntityBase>
+    public partial class SymbolLineSpanList : EntityBase, ISymbolLineSpanList, IPropertyTarget<ISymbolLineSpanList>
+    {
+        public SymbolLineSpanList()
+        {
+        }
+
+        public SymbolLineSpanList(ISymbolLineSpanList source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new SymbolLineSpanList(((ISymbolLineSpanList)this));
+        }
+
+        public void CopyFrom(ISymbolLineSpanList source)
+        {
+        }
+    }
+
+    public partial class ClassificationList : EntityBase, IClassificationList, IPropertyTarget<IClassificationList>
+    {
+        public ClassificationList()
+        {
+        }
+
+        public ClassificationList(IClassificationList source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ClassificationList(((IClassificationList)this));
+        }
+
+        public void CopyFrom(IClassificationList source)
+        {
+        }
+    }
+
+    public partial class ReferenceList : EntityBase, IReferenceList, IPropertyTarget<IReferenceList>
+    {
+        public ReferenceList()
+        {
+        }
+
+        public ReferenceList(IReferenceList source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ReferenceList(((IReferenceList)this));
+        }
+
+        public void CopyFrom(IReferenceList source)
+        {
+        }
+    }
+
+    public partial class SearchEntityBase : EntityBase, ISearchEntityBase, IPropertyTarget<ISearchEntityBase>
     {
         public SearchEntityBase()
         {
@@ -278,12 +341,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public SearchEntity(ISearchEntityBase source)
+        public SearchEntity(ISearchEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public SearchEntity(ISearchEntity source)
+        public SearchEntity(ISearchEntityBase source)
         {
             this.CopyFrom(source);
         }
@@ -319,7 +382,7 @@ namespace Codex.ObjectModel.Implementation
         public string SortKey { get; set; }
     }
 
-    public partial class RepoScopeEntity : IRepoScopeEntity, IPropertyTarget<IRepoScopeEntity>
+    public partial class RepoScopeEntity : EntityBase, IRepoScopeEntity, IPropertyTarget<IRepoScopeEntity>
     {
         public RepoScopeEntity()
         {
@@ -349,12 +412,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public CommitScopeEntity(ICommitScopeEntity source)
+        public CommitScopeEntity(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public CommitScopeEntity(IRepoScopeEntity source)
+        public CommitScopeEntity(ICommitScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -378,12 +441,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ProjectScopeEntity(IProjectScopeEntity source)
+        public ProjectScopeEntity(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public ProjectScopeEntity(IRepoScopeEntity source)
+        public ProjectScopeEntity(IProjectScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -407,12 +470,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public RepoFileScopeEntity(IRepoFileScopeEntity source)
+        public RepoFileScopeEntity(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public RepoFileScopeEntity(IRepoScopeEntity source)
+        public RepoFileScopeEntity(IRepoFileScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -430,10 +493,20 @@ namespace Codex.ObjectModel.Implementation
         public string RepoRelativePath { get; set; }
     }
 
-    public partial class ProjectFileScopeEntity : RepoFileScopeEntity, IProjectFileScopeEntity, IRepoScopeEntity, IProjectScopeEntity, IPropertyTarget<IProjectFileScopeEntity>, IPropertyTarget<IProjectScopeEntity>
+    public partial class ProjectFileScopeEntity : RepoFileScopeEntity, IProjectFileScopeEntity, IRepoScopeEntity, IProjectScopeEntity, IPropertyTarget<IProjectScopeEntity>, IPropertyTarget<IProjectFileScopeEntity>
     {
         public ProjectFileScopeEntity()
         {
+        }
+
+        public ProjectFileScopeEntity(IRepoScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectFileScopeEntity(IProjectScopeEntity source)
+        {
+            this.CopyFrom(source);
         }
 
         public ProjectFileScopeEntity(IRepoFileScopeEntity source)
@@ -446,24 +519,9 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public ProjectFileScopeEntity(IProjectScopeEntity source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public ProjectFileScopeEntity(IRepoScopeEntity source)
-        {
-            this.CopyFrom(source);
-        }
-
         object IPropertyTarget.CreateClone()
         {
             return new ProjectFileScopeEntity(((IProjectFileScopeEntity)this));
-        }
-
-        public void CopyFrom(IProjectFileScopeEntity source)
-        {
-            ProjectRelativePath = GetOrCopy<string, string>(ProjectRelativePath, source.ProjectRelativePath);
         }
 
         public void CopyFrom(IProjectScopeEntity source)
@@ -471,9 +529,14 @@ namespace Codex.ObjectModel.Implementation
             ProjectId = GetOrCopy<string, string>(ProjectId, source.ProjectId);
         }
 
-        public string ProjectRelativePath { get; set; }
+        public void CopyFrom(IProjectFileScopeEntity source)
+        {
+            ProjectRelativePath = GetOrCopy<string, string>(ProjectRelativePath, source.ProjectRelativePath);
+        }
 
         public string ProjectId { get; set; }
+
+        public string ProjectRelativePath { get; set; }
     }
 
     public partial class DefinitionSymbol : ReferenceSymbol, IDefinitionSymbol, ICodeSymbol, IPropertyTarget<IDefinitionSymbol>
@@ -497,11 +560,6 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        object IPropertyTarget.CreateClone()
-        {
-            return new DefinitionSymbol(((IDefinitionSymbol)this));
-        }
-
         public void CopyFrom(IDefinitionSymbol source)
         {
             Uid = GetOrCopy<string, string>(Uid, source.Uid);
@@ -518,6 +576,15 @@ namespace Codex.ObjectModel.Implementation
             DeclarationName = GetOrCopy<string, string>(DeclarationName, source.DeclarationName);
             Comment = GetOrCopy<string, string>(Comment, source.Comment);
         }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new DefinitionSymbol(((IDefinitionSymbol)this));
+        }
+
+        public string Comment { get; set; }
+
+        public string DeclarationName { get; set; }
 
         public string TypeName { get; set; }
 
@@ -544,6 +611,19 @@ namespace Codex.ObjectModel.Implementation
         }
 
         public List<string> Modifiers { get; set; } = new();
+        public string ShortName
+        {
+            get
+            {
+                return CoerceShortName(this.m_ShortName);
+            }
+
+            set
+            {
+                this.m_ShortName = value;
+            }
+        }
+
         IReadOnlyList<string> IDefinitionSymbol.Keywords
         {
             get
@@ -552,12 +632,20 @@ namespace Codex.ObjectModel.Implementation
             }
         }
 
-        public string ShortName { get; set; }
-
-        public string DeclarationName { get; set; }
-
         public List<string> Keywords { get; set; } = new();
-        public string AbbreviatedName { get; set; }
+        private string m_AbbreviatedName;
+        public string AbbreviatedName
+        {
+            get
+            {
+                return CoerceAbbreviatedName(this.m_AbbreviatedName);
+            }
+
+            set
+            {
+                this.m_AbbreviatedName = value;
+            }
+        }
 
         public string DisplayName { get; set; }
 
@@ -565,7 +653,7 @@ namespace Codex.ObjectModel.Implementation
 
         public string ContainerQualifiedName { get; set; }
 
-        public string Comment { get; set; }
+        private string m_ShortName;
     }
 
     public partial class ReferenceSymbol : CodeSymbol, IReferenceSymbol, IPropertyTarget<IReferenceSymbol>
@@ -606,7 +694,7 @@ namespace Codex.ObjectModel.Implementation
         public bool ExcludeFromSearch { get; set; }
     }
 
-    public partial class CodeSymbol : ICodeSymbol, IPropertyTarget<ICodeSymbol>
+    public partial class CodeSymbol : EntityBase, ICodeSymbol, IPropertyTarget<ICodeSymbol>
     {
         public CodeSymbol()
         {
@@ -642,12 +730,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public Commit(ICommitScopeEntity source)
+        public Commit(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public Commit(IRepoScopeEntity source)
+        public Commit(ICommitScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -728,7 +816,7 @@ namespace Codex.ObjectModel.Implementation
         public string OriginalFilePath { get; set; }
     }
 
-    public partial class CommitFileLink : ICommitFileLink, IPropertyTarget<ICommitFileLink>
+    public partial class CommitFileLink : EntityBase, ICommitFileLink, IPropertyTarget<ICommitFileLink>
     {
         public CommitFileLink()
         {
@@ -758,7 +846,7 @@ namespace Codex.ObjectModel.Implementation
         public string VersionControlFileId { get; set; }
     }
 
-    public partial class Branch : IBranch, IPropertyTarget<IBranch>
+    public partial class Branch : EntityBase, IBranch, IPropertyTarget<IBranch>
     {
         public Branch()
         {
@@ -847,7 +935,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class BoundSourceInfo : IBoundSourceInfo, IPropertyTarget<IBoundSourceInfo>
+    public partial class BoundSourceInfo : EntityBase, IBoundSourceInfo, IPropertyTarget<IBoundSourceInfo>
     {
         public BoundSourceInfo()
         {
@@ -875,31 +963,7 @@ namespace Codex.ObjectModel.Implementation
             ExcludeFromSearch = GetOrCopy<bool, bool>(ExcludeFromSearch, source.ExcludeFromSearch);
         }
 
-        public int ReferenceCount { get; set; }
-
-        public int DefinitionCount { get; set; }
-
-        public string Language { get; set; }
-
-        public List<ReferenceSpan> References { get; set; } = new();
-        IReadOnlyList<IReferenceSpan> IBoundSourceInfo.References
-        {
-            get
-            {
-                return References;
-            }
-        }
-
-        public List<DefinitionSpan> Definitions { get; set; } = new();
-        IReadOnlyList<IDefinitionSpan> IBoundSourceInfo.Definitions
-        {
-            get
-            {
-                return Definitions;
-            }
-        }
-
-        public List<ClassificationSpan> Classifications { get; set; } = new();
+        public List<OutliningRegion> OutliningRegions { get; set; } = new();
         IReadOnlyList<IClassificationSpan> IBoundSourceInfo.Classifications
         {
             get
@@ -908,7 +972,26 @@ namespace Codex.ObjectModel.Implementation
             }
         }
 
-        public List<OutliningRegion> OutliningRegions { get; set; } = new();
+        public List<ClassificationSpan> Classifications { get; set; } = new();
+        IReadOnlyList<IDefinitionSpan> IBoundSourceInfo.Definitions
+        {
+            get
+            {
+                return Definitions;
+            }
+        }
+
+        public List<DefinitionSpan> Definitions { get; set; } = new();
+        IReadOnlyList<IReferenceSpan> IBoundSourceInfo.References
+        {
+            get
+            {
+                return References;
+            }
+        }
+
+        public string Language { get; set; }
+
         IReadOnlyList<IOutliningRegion> IBoundSourceInfo.OutliningRegions
         {
             get
@@ -917,10 +1000,39 @@ namespace Codex.ObjectModel.Implementation
             }
         }
 
+        private Nullable<int> m_DefinitionCount;
+        public int DefinitionCount
+        {
+            get
+            {
+                return CoerceDefinitionCount(this.m_DefinitionCount);
+            }
+
+            set
+            {
+                this.m_DefinitionCount = value;
+            }
+        }
+
+        private Nullable<int> m_ReferenceCount;
+        public int ReferenceCount
+        {
+            get
+            {
+                return CoerceReferenceCount(this.m_ReferenceCount);
+            }
+
+            set
+            {
+                this.m_ReferenceCount = value;
+            }
+        }
+
+        public List<ReferenceSpan> References { get; set; } = new();
         public bool ExcludeFromSearch { get; set; }
     }
 
-    public partial class SourceControlFileInfo : ISourceControlFileInfo, IPropertyTarget<ISourceControlFileInfo>
+    public partial class SourceControlFileInfo : EntityBase, ISourceControlFileInfo, IPropertyTarget<ISourceControlFileInfo>
     {
         public SourceControlFileInfo()
         {
@@ -944,23 +1056,18 @@ namespace Codex.ObjectModel.Implementation
         public string SourceControlContentId { get; set; }
     }
 
-    public partial class SourceFileInfo : RepoFileScopeEntity, ISourceFileInfo, IRepoScopeEntity, ISourceControlFileInfo, IProjectFileScopeEntity, IProjectScopeEntity, IPropertyTarget<IProjectFileScopeEntity>, IPropertyTarget<IProjectScopeEntity>, IPropertyTarget<ISourceFileInfo>, IPropertyTarget<ISourceControlFileInfo>
+    public partial class SourceFileInfo : RepoFileScopeEntity, ISourceFileInfo, IRepoScopeEntity, ISourceControlFileInfo, IProjectFileScopeEntity, IProjectScopeEntity, IPropertyTarget<ISourceControlFileInfo>, IPropertyTarget<IProjectScopeEntity>, IPropertyTarget<IProjectFileScopeEntity>, IPropertyTarget<ISourceFileInfo>
     {
         public SourceFileInfo()
         {
         }
 
+        public SourceFileInfo(IRepoScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
         public SourceFileInfo(ISourceControlFileInfo source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public SourceFileInfo(IRepoFileScopeEntity source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public SourceFileInfo(IProjectFileScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -970,19 +1077,19 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
+        public SourceFileInfo(IProjectFileScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
         public SourceFileInfo(IProjectScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public SourceFileInfo(IRepoScopeEntity source)
+        public SourceFileInfo(IRepoFileScopeEntity source)
         {
             this.CopyFrom(source);
-        }
-
-        public void CopyFrom(ISourceControlFileInfo source)
-        {
-            SourceControlContentId = GetOrCopy<string, string>(SourceControlContentId, source.SourceControlContentId);
         }
 
         public void CopyFrom(ISourceFileInfo source)
@@ -995,20 +1102,29 @@ namespace Codex.ObjectModel.Implementation
             Properties = GetOrCopy<PropertyMap, IPropertyMap>(Properties, source.Properties);
         }
 
+        public void CopyFrom(IProjectFileScopeEntity source)
+        {
+            ProjectRelativePath = GetOrCopy<string, string>(ProjectRelativePath, source.ProjectRelativePath);
+        }
+
         public void CopyFrom(IProjectScopeEntity source)
         {
             ProjectId = GetOrCopy<string, string>(ProjectId, source.ProjectId);
         }
 
-        public void CopyFrom(IProjectFileScopeEntity source)
+        public void CopyFrom(ISourceControlFileInfo source)
         {
-            ProjectRelativePath = GetOrCopy<string, string>(ProjectRelativePath, source.ProjectRelativePath);
+            SourceControlContentId = GetOrCopy<string, string>(SourceControlContentId, source.SourceControlContentId);
         }
 
         object IPropertyTarget.CreateClone()
         {
             return new SourceFileInfo(((ISourceFileInfo)this));
         }
+
+        public string SourceControlContentId { get; set; }
+
+        public PropertyMap Properties { get; set; }
 
         public string ProjectRelativePath { get; set; }
 
@@ -1030,7 +1146,7 @@ namespace Codex.ObjectModel.Implementation
             }
         }
 
-        public PropertyMap Properties { get; set; }
+        public string ProjectId { get; set; }
 
         IPropertyMap ISourceFileInfo.Properties
         {
@@ -1039,13 +1155,9 @@ namespace Codex.ObjectModel.Implementation
                 return Properties;
             }
         }
-
-        public string ProjectId { get; set; }
-
-        public string SourceControlContentId { get; set; }
     }
 
-    public partial class EncodingDescription : IEncodingDescription, IPropertyTarget<IEncodingDescription>
+    public partial class EncodingDescription : EntityBase, IEncodingDescription, IPropertyTarget<IEncodingDescription>
     {
         public EncodingDescription()
         {
@@ -1072,7 +1184,7 @@ namespace Codex.ObjectModel.Implementation
         public byte[] Preamble { get; set; }
     }
 
-    public partial class SourceFileBase : ISourceFileBase, IPropertyTarget<ISourceFileBase>
+    public partial class SourceFileBase : EntityBase, ISourceFileBase, IPropertyTarget<ISourceFileBase>
     {
         public SourceFileBase()
         {
@@ -1172,7 +1284,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class ChunkReference : IChunkReference, IPropertyTarget<IChunkReference>
+    public partial class ChunkReference : EntityBase, IChunkReference, IPropertyTarget<IChunkReference>
     {
         public ChunkReference()
         {
@@ -1199,7 +1311,7 @@ namespace Codex.ObjectModel.Implementation
         public int StartLineNumber { get; set; }
     }
 
-    public partial class SourceFileContentChunk : ISourceFileContentChunk, IPropertyTarget<ISourceFileContentChunk>
+    public partial class SourceFileContentChunk : EntityBase, ISourceFileContentChunk, IPropertyTarget<ISourceFileContentChunk>
     {
         public SourceFileContentChunk()
         {
@@ -1230,7 +1342,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class OutliningRegion : IOutliningRegion, IPropertyTarget<IOutliningRegion>
+    public partial class OutliningRegion : EntityBase, IOutliningRegion, IPropertyTarget<IOutliningRegion>
     {
         public OutliningRegion()
         {
@@ -1329,12 +1441,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ParameterDefinitionSpan(ISpan source)
+        public ParameterDefinitionSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
 
-        public ParameterDefinitionSpan(ILineSpan source)
+        public ParameterDefinitionSpan(ISpan source)
         {
             this.CopyFrom(source);
         }
@@ -1366,17 +1478,7 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ReferenceSpan(IReferenceSpan source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public ReferenceSpan(ISymbolSpan source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public ReferenceSpan(ITextLineSpan source)
+        public ReferenceSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1386,7 +1488,17 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public ReferenceSpan(ILineSpan source)
+        public ReferenceSpan(IReferenceSpan source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSpan(ITextLineSpan source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSpan(ISymbolSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1431,17 +1543,7 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ParameterReferenceSpan(IParameterReferenceSpan source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public ParameterReferenceSpan(ISymbolSpan source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public ParameterReferenceSpan(ITextLineSpan source)
+        public ParameterReferenceSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1451,7 +1553,17 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public ParameterReferenceSpan(ILineSpan source)
+        public ParameterReferenceSpan(ITextLineSpan source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ParameterReferenceSpan(ISymbolSpan source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ParameterReferenceSpan(IParameterReferenceSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1475,12 +1587,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ClassificationSpan(IClassificationSpan source)
+        public ClassificationSpan(ISpan source)
         {
             this.CopyFrom(source);
         }
 
-        public ClassificationSpan(ISpan source)
+        public ClassificationSpan(IClassificationSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1510,12 +1622,7 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public SymbolSpan(ISymbolSpan source)
-        {
-            this.CopyFrom(source);
-        }
-
-        public SymbolSpan(ITextLineSpan source)
+        public SymbolSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1525,7 +1632,12 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public SymbolSpan(ILineSpan source)
+        public SymbolSpan(ITextLineSpan source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public SymbolSpan(ISymbolSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1546,7 +1658,7 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public TextLineSpan(ITextLineSpan source)
+        public TextLineSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1556,7 +1668,7 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public TextLineSpan(ILineSpan source)
+        public TextLineSpan(ITextLineSpan source)
         {
             this.CopyFrom(source);
         }
@@ -1580,12 +1692,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public LineSpan(ISpan source)
+        public LineSpan(ILineSpan source)
         {
             this.CopyFrom(source);
         }
 
-        public LineSpan(ILineSpan source)
+        public LineSpan(ISpan source)
         {
             this.CopyFrom(source);
         }
@@ -1603,16 +1715,40 @@ namespace Codex.ObjectModel.Implementation
             LineOffset = GetOrCopy<int, int>(LineOffset, source.LineOffset);
         }
 
-        public int LineIndex { get; set; }
+        public int LineIndex
+        {
+            get
+            {
+                return CoerceLineIndex(this.m_LineIndex);
+            }
 
-        public int LineNumber { get; set; }
+            set
+            {
+                this.m_LineIndex = value;
+            }
+        }
 
+        private Nullable<int> m_LineIndex;
+        public int LineNumber
+        {
+            get
+            {
+                return CoerceLineNumber(this.m_LineNumber);
+            }
+
+            set
+            {
+                this.m_LineNumber = value;
+            }
+        }
+
+        private Nullable<int> m_LineNumber;
         public int LineSpanStart { get; set; }
 
         public int LineOffset { get; set; }
     }
 
-    public partial class Span : ISpan, IPropertyTarget<ISpan>
+    public partial class Span : EntityBase, ISpan, IPropertyTarget<ISpan>
     {
         public Span()
         {
@@ -1639,7 +1775,7 @@ namespace Codex.ObjectModel.Implementation
         public int Length { get; set; }
     }
 
-    public partial class CodeReview : ICodeReview, IPropertyTarget<ICodeReview>
+    public partial class CodeReview : EntityBase, ICodeReview, IPropertyTarget<ICodeReview>
     {
         public CodeReview()
         {
@@ -1672,7 +1808,7 @@ namespace Codex.ObjectModel.Implementation
         public CodeReviewStatus Status { get; set; }
     }
 
-    public partial class CodeReviewIteration : ICodeReviewIteration, IPropertyTarget<ICodeReviewIteration>
+    public partial class CodeReviewIteration : EntityBase, ICodeReviewIteration, IPropertyTarget<ICodeReviewIteration>
     {
         public CodeReviewIteration()
         {
@@ -1712,7 +1848,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class CodeReviewerInfo : ICodeReviewerInfo, IPropertyTarget<ICodeReviewerInfo>
+    public partial class CodeReviewerInfo : EntityBase, ICodeReviewerInfo, IPropertyTarget<ICodeReviewerInfo>
     {
         public CodeReviewerInfo()
         {
@@ -1736,7 +1872,7 @@ namespace Codex.ObjectModel.Implementation
         public string Name { get; set; }
     }
 
-    public partial class CodeReviewFile : ICodeReviewFile, IPropertyTarget<ICodeReviewFile>
+    public partial class CodeReviewFile : EntityBase, ICodeReviewFile, IPropertyTarget<ICodeReviewFile>
     {
         public CodeReviewFile()
         {
@@ -1772,7 +1908,7 @@ namespace Codex.ObjectModel.Implementation
         public FileChangeKind ChangeKind { get; set; }
     }
 
-    public partial class CodeReviewCommentThread : ICodeReviewCommentThread, IPropertyTarget<ICodeReviewCommentThread>
+    public partial class CodeReviewCommentThread : EntityBase, ICodeReviewCommentThread, IPropertyTarget<ICodeReviewCommentThread>
     {
         public CodeReviewCommentThread()
         {
@@ -1823,7 +1959,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class CodeReviewComment : ICodeReviewComment, IPropertyTarget<ICodeReviewComment>
+    public partial class CodeReviewComment : EntityBase, ICodeReviewComment, IPropertyTarget<ICodeReviewComment>
     {
         public CodeReviewComment()
         {
@@ -1862,12 +1998,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public AnalyzedProject(IProjectScopeEntity source)
+        public AnalyzedProject(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public AnalyzedProject(IRepoScopeEntity source)
+        public AnalyzedProject(IProjectScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -1921,7 +2057,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class ReferencedProject : IReferencedProject, IPropertyTarget<IReferencedProject>
+    public partial class ReferencedProject : EntityBase, IReferencedProject, IPropertyTarget<IReferencedProject>
     {
         public ReferencedProject()
         {
@@ -1975,12 +2111,12 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public ProjectFileLink(IRepoFileScopeEntity source)
+        public ProjectFileLink(IProjectFileLink source)
         {
             this.CopyFrom(source);
         }
 
-        public ProjectFileLink(IProjectFileScopeEntity source)
+        public ProjectFileLink(IRepoScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -1990,12 +2126,12 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public ProjectFileLink(IProjectFileLink source)
+        public ProjectFileLink(IRepoFileScopeEntity source)
         {
             this.CopyFrom(source);
         }
 
-        public ProjectFileLink(IRepoScopeEntity source)
+        public ProjectFileLink(IProjectFileScopeEntity source)
         {
             this.CopyFrom(source);
         }
@@ -2019,7 +2155,7 @@ namespace Codex.ObjectModel.Implementation
         {
         }
 
-        public PropertySearchModel(IPropertySearchModel source)
+        public PropertySearchModel(ISearchEntity source)
         {
             this.CopyFrom(source);
         }
@@ -2029,7 +2165,7 @@ namespace Codex.ObjectModel.Implementation
             this.CopyFrom(source);
         }
 
-        public PropertySearchModel(ISearchEntity source)
+        public PropertySearchModel(IPropertySearchModel source)
         {
             this.CopyFrom(source);
         }
@@ -2053,28 +2189,7 @@ namespace Codex.ObjectModel.Implementation
         public string OwnerId { get; set; }
     }
 
-    public partial class PropertyMap : IPropertyMap, IPropertyTarget<IPropertyMap>
-    {
-        public PropertyMap()
-        {
-        }
-
-        public PropertyMap(IPropertyMap source)
-        {
-            this.CopyFrom(source);
-        }
-
-        object IPropertyTarget.CreateClone()
-        {
-            return new PropertyMap(((IPropertyMap)this));
-        }
-
-        public void CopyFrom(IPropertyMap source)
-        {
-        }
-    }
-
-    public partial class Repository : IRepository, IPropertyTarget<IRepository>
+    public partial class Repository : EntityBase, IRepository, IPropertyTarget<IRepository>
     {
         public Repository()
         {
@@ -2120,7 +2235,7 @@ namespace Codex.ObjectModel.Implementation
         }
     }
 
-    public partial class RepositoryReference : IRepositoryReference, IPropertyTarget<IRepositoryReference>
+    public partial class RepositoryReference : EntityBase, IRepositoryReference, IPropertyTarget<IRepositoryReference>
     {
         public RepositoryReference()
         {
@@ -2145,5 +2260,860 @@ namespace Codex.ObjectModel.Implementation
         public string Name { get; set; }
 
         public string Id { get; set; }
+    }
+
+    public partial class RegisteredEntity : SearchEntity, IRegisteredEntity, ISearchEntityBase, IPropertyTarget<IRegisteredEntity>
+    {
+        public RegisteredEntity()
+        {
+        }
+
+        public RegisteredEntity(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public RegisteredEntity(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public RegisteredEntity(IRegisteredEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new RegisteredEntity(((IRegisteredEntity)this));
+        }
+
+        public void CopyFrom(IRegisteredEntity source)
+        {
+            DateAdded = GetOrCopy<DateTime, DateTime>(DateAdded, source.DateAdded);
+            EntityUid = GetOrCopy<string, string>(EntityUid, source.EntityUid);
+            IndexName = GetOrCopy<string, string>(IndexName, source.IndexName);
+        }
+
+        public DateTime DateAdded { get; set; }
+
+        public string EntityUid { get; set; }
+
+        public string IndexName { get; set; }
+    }
+
+    public partial class StoredFilter : SearchEntity, IStoredFilter, ISearchEntityBase, IPropertyTarget<IStoredFilter>
+    {
+        public StoredFilter()
+        {
+        }
+
+        public StoredFilter(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public StoredFilter(IStoredFilter source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public StoredFilter(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new StoredFilter(((IStoredFilter)this));
+        }
+
+        public void CopyFrom(IStoredFilter source)
+        {
+            DateUpdated = GetOrCopy<DateTime, DateTime>(DateUpdated, source.DateUpdated);
+            FullPath = GetOrCopy<string, string>(FullPath, source.FullPath);
+            Name = GetOrCopy<string, string>(Name, source.Name);
+            IndexName = GetOrCopy<string, string>(IndexName, source.IndexName);
+            StableIds = GetOrCopy<byte[], byte[]>(StableIds, source.StableIds);
+            Children = GetOrCopy<ChildFilterReference, IChildFilterReference>(Children, source.Children);
+            FilterHash = GetOrCopy<string, string>(FilterHash, source.FilterHash);
+            Cardinality = GetOrCopy<int, int>(Cardinality, source.Cardinality);
+        }
+
+        public DateTime DateUpdated { get; set; }
+
+        public string FullPath { get; set; }
+
+        public string Name { get; set; }
+
+        public string IndexName { get; set; }
+
+        public byte[] StableIds { get; set; }
+
+        public List<ChildFilterReference> Children { get; set; } = new();
+        IReadOnlyList<IChildFilterReference> IStoredFilter.Children
+        {
+            get
+            {
+                return Children;
+            }
+        }
+
+        public string FilterHash { get; set; }
+
+        public int Cardinality { get; set; }
+    }
+
+    public partial class ChildFilterReference : EntityBase, IChildFilterReference, IPropertyTarget<IChildFilterReference>
+    {
+        public ChildFilterReference()
+        {
+        }
+
+        public ChildFilterReference(IChildFilterReference source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ChildFilterReference(((IChildFilterReference)this));
+        }
+
+        public void CopyFrom(IChildFilterReference source)
+        {
+            FullPath = GetOrCopy<string, string>(FullPath, source.FullPath);
+            Uid = GetOrCopy<string, string>(Uid, source.Uid);
+            StableIds = GetOrCopy<byte[], byte[]>(StableIds, source.StableIds);
+            Cardinality = GetOrCopy<int, int>(Cardinality, source.Cardinality);
+        }
+
+        public string FullPath { get; set; }
+
+        public string Uid { get; set; }
+
+        public byte[] StableIds { get; set; }
+
+        public int Cardinality { get; set; }
+    }
+
+    public partial class DefinitionSearchModel : SearchEntity, IDefinitionSearchModel, ISearchEntityBase, IPropertyTarget<IDefinitionSearchModel>
+    {
+        public DefinitionSearchModel()
+        {
+        }
+
+        public DefinitionSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public DefinitionSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public DefinitionSearchModel(IDefinitionSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new DefinitionSearchModel(((IDefinitionSearchModel)this));
+        }
+
+        public void CopyFrom(IDefinitionSearchModel source)
+        {
+            Definition = GetOrCopy<DefinitionSymbol, IDefinitionSymbol>(Definition, source.Definition);
+            Keywords = GetOrCopy<string, string>(Keywords, source.Keywords);
+        }
+
+        public DefinitionSymbol Definition { get; set; }
+
+        IDefinitionSymbol IDefinitionSearchModel.Definition
+        {
+            get
+            {
+                return Definition;
+            }
+        }
+
+        public List<string> Keywords { get; set; } = new();
+        IReadOnlyList<string> IDefinitionSearchModel.Keywords
+        {
+            get
+            {
+                return Keywords;
+            }
+        }
+    }
+
+    public partial class LanguageSearchModel : SearchEntity, ILanguageSearchModel, ISearchEntityBase, IPropertyTarget<ILanguageSearchModel>
+    {
+        public LanguageSearchModel()
+        {
+        }
+
+        public LanguageSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public LanguageSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public LanguageSearchModel(ILanguageSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new LanguageSearchModel(((ILanguageSearchModel)this));
+        }
+
+        public void CopyFrom(ILanguageSearchModel source)
+        {
+            Language = GetOrCopy<LanguageInfo, ILanguageInfo>(Language, source.Language);
+        }
+
+        public LanguageInfo Language { get; set; }
+
+        ILanguageInfo ILanguageSearchModel.Language
+        {
+            get
+            {
+                return Language;
+            }
+        }
+    }
+
+    public partial class ReferenceSearchModel : ProjectFileScopeEntity, IReferenceSearchModel, IRepoFileScopeEntity, IRepoScopeEntity, IProjectScopeEntity, ISearchEntity, ISearchEntityBase, IPropertyTarget<ISearchEntity>, IPropertyTarget<ISearchEntityBase>, IPropertyTarget<IReferenceSearchModel>
+    {
+        public ReferenceSearchModel()
+        {
+        }
+
+        public ReferenceSearchModel(IReferenceSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(IProjectFileScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(IRepoFileScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(IRepoScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(IProjectScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ReferenceSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public void CopyFrom(IReferenceSearchModel source)
+        {
+            Reference = GetOrCopy<ReferenceSymbol, IReferenceSymbol>(Reference, source.Reference);
+            Spans = GetOrCopy<SymbolSpan, ISymbolSpan>(Spans, source.Spans);
+            CompressedSpans = GetOrCopy<SymbolLineSpanList, ISymbolLineSpanList>(CompressedSpans, source.CompressedSpans);
+        }
+
+        public void CopyFrom(ISearchEntityBase source)
+        {
+        }
+
+        public void CopyFrom(ISearchEntity source)
+        {
+            Uid = GetOrCopy<string, string>(Uid, source.Uid);
+            EntityContentId = GetOrCopy<string, string>(EntityContentId, source.EntityContentId);
+            EntityContentSize = GetOrCopy<int, int>(EntityContentSize, source.EntityContentSize);
+            EntityVersion = GetOrCopy<Nullable<long>, Nullable<long>>(EntityVersion, source.EntityVersion);
+            RoutingGroup = GetOrCopy<int, int>(RoutingGroup, source.RoutingGroup);
+            StableId = GetOrCopy<int, int>(StableId, source.StableId);
+            SortKey = GetOrCopy<string, string>(SortKey, source.SortKey);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ReferenceSearchModel(((IReferenceSearchModel)this));
+        }
+
+        IReadOnlyList<ISymbolSpan> IReferenceSearchModel.Spans
+        {
+            get
+            {
+                return Spans;
+            }
+        }
+
+        private List<SymbolSpan> m_Spans;
+        public List<SymbolSpan> Spans
+        {
+            get
+            {
+                return CoerceSpans(this.m_Spans);
+            }
+
+            set
+            {
+                this.m_Spans = value;
+            }
+        }
+
+        IReferenceSymbol IReferenceSearchModel.Reference
+        {
+            get
+            {
+                return Reference;
+            }
+        }
+
+        public ReferenceSymbol Reference { get; set; }
+
+        public Nullable<long> EntityVersion { get; set; }
+
+        public string Uid { get; set; }
+
+        public SymbolLineSpanList CompressedSpans { get; set; }
+
+        public string EntityContentId { get; set; }
+
+        public string SortKey { get; set; }
+
+        public int StableId { get; set; }
+
+        public int RoutingGroup { get; set; }
+
+        public int EntityContentSize { get; set; }
+
+        ISymbolLineSpanList IReferenceSearchModel.CompressedSpans
+        {
+            get
+            {
+                return CompressedSpans;
+            }
+        }
+    }
+
+    public partial class SourceSearchModelBase : SearchEntity, ISourceSearchModelBase, ISearchEntityBase, IPropertyTarget<ISourceSearchModelBase>
+    {
+        public SourceSearchModelBase()
+        {
+        }
+
+        public SourceSearchModelBase(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public SourceSearchModelBase(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public SourceSearchModelBase(ISourceSearchModelBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new SourceSearchModelBase(((ISourceSearchModelBase)this));
+        }
+
+        public void CopyFrom(ISourceSearchModelBase source)
+        {
+            SourceControlInfo = GetOrCopy<SourceControlFileInfo, ISourceControlFileInfo>(SourceControlInfo, source.SourceControlInfo);
+            File = GetOrCopy<ChunkedSourceFile, IChunkedSourceFile>(File, source.File);
+        }
+
+        public SourceControlFileInfo SourceControlInfo { get; set; }
+
+        ISourceControlFileInfo ISourceSearchModelBase.SourceControlInfo
+        {
+            get
+            {
+                return SourceControlInfo;
+            }
+        }
+
+        public ChunkedSourceFile File { get; set; }
+
+        IChunkedSourceFile ISourceSearchModelBase.File
+        {
+            get
+            {
+                return File;
+            }
+        }
+    }
+
+    public partial class BoundSourceSearchModel : SourceSearchModelBase, IBoundSourceSearchModel, ISearchEntity, ISearchEntityBase, IPropertyTarget<IBoundSourceSearchModel>
+    {
+        public BoundSourceSearchModel()
+        {
+        }
+
+        public BoundSourceSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public BoundSourceSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public BoundSourceSearchModel(ISourceSearchModelBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public BoundSourceSearchModel(IBoundSourceSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new BoundSourceSearchModel(((IBoundSourceSearchModel)this));
+        }
+
+        public void CopyFrom(IBoundSourceSearchModel source)
+        {
+            TextUid = GetOrCopy<string, string>(TextUid, source.TextUid);
+            BindingInfo = GetOrCopy<BoundSourceInfo, IBoundSourceInfo>(BindingInfo, source.BindingInfo);
+            CompressedClassifications = GetOrCopy<ClassificationList, IClassificationList>(CompressedClassifications, source.CompressedClassifications);
+            CompressedReferences = GetOrCopy<ReferenceList, IReferenceList>(CompressedReferences, source.CompressedReferences);
+        }
+
+        public string TextUid { get; set; }
+
+        public BoundSourceInfo BindingInfo { get; set; }
+
+        IBoundSourceInfo IBoundSourceSearchModel.BindingInfo
+        {
+            get
+            {
+                return BindingInfo;
+            }
+        }
+
+        public ClassificationList CompressedClassifications { get; set; }
+
+        IClassificationList IBoundSourceSearchModel.CompressedClassifications
+        {
+            get
+            {
+                return CompressedClassifications;
+            }
+        }
+
+        public ReferenceList CompressedReferences { get; set; }
+
+        IReferenceList IBoundSourceSearchModel.CompressedReferences
+        {
+            get
+            {
+                return CompressedReferences;
+            }
+        }
+    }
+
+    public partial class TextSourceSearchModel : SourceSearchModelBase, ITextSourceSearchModel, ISearchEntity, ISearchEntityBase, IPropertyTarget<ITextSourceSearchModel>
+    {
+        public TextSourceSearchModel()
+        {
+        }
+
+        public TextSourceSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public TextSourceSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public TextSourceSearchModel(ITextSourceSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public TextSourceSearchModel(ISourceSearchModelBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new TextSourceSearchModel(((ITextSourceSearchModel)this));
+        }
+
+        public void CopyFrom(ITextSourceSearchModel source)
+        {
+        }
+    }
+
+    public partial class TextChunkSearchModel : SearchEntity, ITextChunkSearchModel, ISearchEntityBase, IPropertyTarget<ITextChunkSearchModel>
+    {
+        public TextChunkSearchModel()
+        {
+        }
+
+        public TextChunkSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public TextChunkSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public TextChunkSearchModel(ITextChunkSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new TextChunkSearchModel(((ITextChunkSearchModel)this));
+        }
+
+        public void CopyFrom(ITextChunkSearchModel source)
+        {
+            Chunk = GetOrCopy<SourceFileContentChunk, ISourceFileContentChunk>(Chunk, source.Chunk);
+            RawChunk = GetOrCopy<SourceFileContentChunk, ISourceFileContentChunk>(RawChunk, source.RawChunk);
+        }
+
+        public SourceFileContentChunk Chunk { get; set; }
+
+        ISourceFileContentChunk ITextChunkSearchModel.Chunk
+        {
+            get
+            {
+                return Chunk;
+            }
+        }
+
+        public SourceFileContentChunk RawChunk { get; set; }
+
+        ISourceFileContentChunk ITextChunkSearchModel.RawChunk
+        {
+            get
+            {
+                return RawChunk;
+            }
+        }
+    }
+
+    public partial class RepositorySearchModel : SearchEntity, IRepositorySearchModel, ISearchEntityBase, IPropertyTarget<IRepositorySearchModel>
+    {
+        public RepositorySearchModel()
+        {
+        }
+
+        public RepositorySearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public RepositorySearchModel(IRepositorySearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public RepositorySearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new RepositorySearchModel(((IRepositorySearchModel)this));
+        }
+
+        public void CopyFrom(IRepositorySearchModel source)
+        {
+            Repository = GetOrCopy<Repository, IRepository>(Repository, source.Repository);
+        }
+
+        public Repository Repository { get; set; }
+
+        IRepository IRepositorySearchModel.Repository
+        {
+            get
+            {
+                return Repository;
+            }
+        }
+    }
+
+    public partial class ProjectSearchModel : SearchEntity, IProjectSearchModel, ISearchEntityBase, IPropertyTarget<IProjectSearchModel>
+    {
+        public ProjectSearchModel()
+        {
+        }
+
+        public ProjectSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectSearchModel(IProjectSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ProjectSearchModel(((IProjectSearchModel)this));
+        }
+
+        public void CopyFrom(IProjectSearchModel source)
+        {
+            Project = GetOrCopy<AnalyzedProject, IAnalyzedProject>(Project, source.Project);
+        }
+
+        public AnalyzedProject Project { get; set; }
+
+        IAnalyzedProject IProjectSearchModel.Project
+        {
+            get
+            {
+                return Project;
+            }
+        }
+    }
+
+    public partial class ProjectReferenceSearchModel : ProjectScopeEntity, IProjectReferenceSearchModel, IRepoScopeEntity, ISearchEntity, ISearchEntityBase, IPropertyTarget<ISearchEntity>, IPropertyTarget<ISearchEntityBase>, IPropertyTarget<IProjectReferenceSearchModel>
+    {
+        public ProjectReferenceSearchModel()
+        {
+        }
+
+        public ProjectReferenceSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectReferenceSearchModel(IProjectReferenceSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectReferenceSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectReferenceSearchModel(IProjectScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public ProjectReferenceSearchModel(IRepoScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new ProjectReferenceSearchModel(((IProjectReferenceSearchModel)this));
+        }
+
+        public void CopyFrom(ISearchEntity source)
+        {
+            Uid = GetOrCopy<string, string>(Uid, source.Uid);
+            EntityContentId = GetOrCopy<string, string>(EntityContentId, source.EntityContentId);
+            EntityContentSize = GetOrCopy<int, int>(EntityContentSize, source.EntityContentSize);
+            EntityVersion = GetOrCopy<Nullable<long>, Nullable<long>>(EntityVersion, source.EntityVersion);
+            RoutingGroup = GetOrCopy<int, int>(RoutingGroup, source.RoutingGroup);
+            StableId = GetOrCopy<int, int>(StableId, source.StableId);
+            SortKey = GetOrCopy<string, string>(SortKey, source.SortKey);
+        }
+
+        public void CopyFrom(IProjectReferenceSearchModel source)
+        {
+            ProjectReference = GetOrCopy<ReferencedProject, IReferencedProject>(ProjectReference, source.ProjectReference);
+        }
+
+        public void CopyFrom(ISearchEntityBase source)
+        {
+        }
+
+        public int StableId { get; set; }
+
+        public ReferencedProject ProjectReference { get; set; }
+
+        public int RoutingGroup { get; set; }
+
+        public Nullable<long> EntityVersion { get; set; }
+
+        public int EntityContentSize { get; set; }
+
+        public string EntityContentId { get; set; }
+
+        public string Uid { get; set; }
+
+        public string SortKey { get; set; }
+
+        IReferencedProject IProjectReferenceSearchModel.ProjectReference
+        {
+            get
+            {
+                return ProjectReference;
+            }
+        }
+    }
+
+    public partial class CommitSearchModel : SearchEntity, ICommitSearchModel, ISearchEntityBase, IPropertyTarget<ICommitSearchModel>
+    {
+        public CommitSearchModel()
+        {
+        }
+
+        public CommitSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitSearchModel(ICommitSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new CommitSearchModel(((ICommitSearchModel)this));
+        }
+
+        public void CopyFrom(ICommitSearchModel source)
+        {
+            Commit = GetOrCopy<Commit, ICommit>(Commit, source.Commit);
+        }
+
+        public Commit Commit { get; set; }
+
+        ICommit ICommitSearchModel.Commit
+        {
+            get
+            {
+                return Commit;
+            }
+        }
+    }
+
+    public partial class CommitFilesSearchModel : CommitScopeEntity, ICommitFilesSearchModel, IRepoScopeEntity, ISearchEntity, ISearchEntityBase, IPropertyTarget<ISearchEntity>, IPropertyTarget<ICommitFilesSearchModel>, IPropertyTarget<ISearchEntityBase>
+    {
+        public CommitFilesSearchModel()
+        {
+        }
+
+        public CommitFilesSearchModel(ISearchEntityBase source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitFilesSearchModel(ICommitFilesSearchModel source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitFilesSearchModel(IRepoScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitFilesSearchModel(ICommitScopeEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public CommitFilesSearchModel(ISearchEntity source)
+        {
+            this.CopyFrom(source);
+        }
+
+        public void CopyFrom(ISearchEntityBase source)
+        {
+        }
+
+        public void CopyFrom(ISearchEntity source)
+        {
+            Uid = GetOrCopy<string, string>(Uid, source.Uid);
+            EntityContentId = GetOrCopy<string, string>(EntityContentId, source.EntityContentId);
+            EntityContentSize = GetOrCopy<int, int>(EntityContentSize, source.EntityContentSize);
+            EntityVersion = GetOrCopy<Nullable<long>, Nullable<long>>(EntityVersion, source.EntityVersion);
+            RoutingGroup = GetOrCopy<int, int>(RoutingGroup, source.RoutingGroup);
+            StableId = GetOrCopy<int, int>(StableId, source.StableId);
+            SortKey = GetOrCopy<string, string>(SortKey, source.SortKey);
+        }
+
+        public void CopyFrom(ICommitFilesSearchModel source)
+        {
+            CommitFiles = GetOrCopy<CommitFileLink, ICommitFileLink>(CommitFiles, source.CommitFiles);
+        }
+
+        object IPropertyTarget.CreateClone()
+        {
+            return new CommitFilesSearchModel(((ICommitFilesSearchModel)this));
+        }
+
+        public string EntityContentId { get; set; }
+
+        public int EntityContentSize { get; set; }
+
+        public Nullable<long> EntityVersion { get; set; }
+
+        public int RoutingGroup { get; set; }
+
+        public string SortKey { get; set; }
+
+        public List<CommitFileLink> CommitFiles { get; set; } = new();
+        IReadOnlyList<ICommitFileLink> ICommitFilesSearchModel.CommitFiles
+        {
+            get
+            {
+                return CommitFiles;
+            }
+        }
+
+        public string Uid { get; set; }
+
+        public int StableId { get; set; }
     }
 }
